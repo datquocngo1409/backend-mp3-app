@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,18 +40,12 @@ public class ImageController {
 
     //API sẽ tạo một Image mới.
     @RequestMapping(value = "/images", method = RequestMethod.POST)
-    public ResponseEntity<?> createStaff(@RequestParam(name = "file") MultipartFile file, HttpServletRequest servletRequest, UriComponentsBuilder ucBuilder) throws URISyntaxException {
+    public ResponseEntity<?> createStaff(@RequestParam(name = "file") MultipartFile file, HttpServletRequest servletRequest) throws URISyntaxException {
         try {
             imageService.create(file);
-            List<Image> imageList = imageService.findAll();
-            Image  image = null;
-            for (Image img : imageList) {
-                if (img.getName().equals(file.getName())) {
-                    image = img;
-                }
-            }
+            System.out.println("Created!");
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/images/{id}").buildAndExpand(image.getId()).toUri());
+            headers.setCacheControl(CacheControl.noCache().getHeaderValue());
             URI locationUri = new URI(servletRequest.getRequestURI().toString() + "/")
                     .resolve(file.getOriginalFilename() + "/raw");
             return ResponseEntity.created(locationUri)
@@ -64,6 +55,29 @@ public class ImageController {
                     .body("fail" + "=>" + e.getMessage());
         }
     }
+//
+//    @RequestMapping(value = "/images", method = RequestMethod.POST)
+//    public ResponseEntity<?> createStaff(@RequestParam(name = "file") MultipartFile file, HttpServletRequest servletRequest, UriComponentsBuilder ucBuilder) throws URISyntaxException {
+//        try {
+//            imageService.create(file);
+//            List<Image> imageList = imageService.findAll();
+//            Image  image = null;
+//            for (Image img : imageList) {
+//                if (img.getName().equals(file.getName())) {
+//                    image = img;
+//                }
+//            }
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setLocation(ucBuilder.path("/images/{id}").buildAndExpand(image.getId()).toUri());
+//            URI locationUri = new URI(servletRequest.getRequestURI().toString() + "/")
+//                    .resolve(file.getOriginalFilename() + "/raw");
+//            return ResponseEntity.created(locationUri)
+//                    .body("success upload");
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("fail" + "=>" + e.getMessage());
+//        }
+//    }
 
     //API sẽ trả về Ảnh trong url localhost/ + tên ảnh +/raw.
     @GetMapping("/images/{name:.+}/raw")
