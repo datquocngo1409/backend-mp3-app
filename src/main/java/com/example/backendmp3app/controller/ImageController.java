@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
@@ -46,6 +47,8 @@ public class ImageController {
             System.out.println("Created!");
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+            headers.setAccessControlAllowOrigin("*");
+            headers.setAccessControlAllowCredentials(true);
             URI locationUri = new URI(servletRequest.getRequestURI().toString() + "/")
                     .resolve(file.getOriginalFilename() + "/raw");
             return ResponseEntity.created(locationUri)

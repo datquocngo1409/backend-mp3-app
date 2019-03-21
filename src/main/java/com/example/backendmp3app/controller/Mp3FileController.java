@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +49,9 @@ public class Mp3FileController {
         try{
             //Tạo file.
             mp3FileService.create(file);
+            System.out.println("Created!");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setCacheControl(CacheControl.noCache().getHeaderValue());
             //Set url để truy cập vào file đó, ví dụ http://localhost:8080/mp3files/Cang-Niu-Giu-Cang-De-Mat-Mr-Siro.mp3/raw.
             URI locationUri = new URI(servletRequest.getRequestURI().toString() + "/")
                     .resolve(file.getOriginalFilename() + "/raw");
