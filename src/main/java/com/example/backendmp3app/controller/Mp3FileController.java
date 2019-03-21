@@ -45,11 +45,11 @@ public class Mp3FileController {
 
     //API sẽ tạo một Mp3File.
     @RequestMapping(value = "/mp3files",method = RequestMethod.POST)
-    public ResponseEntity<?> createMp3File(@RequestParam(name = "fileMp3") MultipartFile file, HttpServletRequest servletRequest) throws URISyntaxException {
+    public ResponseEntity<?> createMp3File(@RequestParam(name = "file") MultipartFile file, HttpServletRequest servletRequest) throws URISyntaxException {
         try{
             //Tạo file.
             mp3FileService.create(file);
-            System.out.println("Created!");
+            System.out.println("Created Mp3!");
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
             //Set url để truy cập vào file đó, ví dụ http://localhost:8080/mp3files/Cang-Niu-Giu-Cang-De-Mat-Mr-Siro.mp3/raw.
@@ -81,5 +81,16 @@ public class Mp3FileController {
         } catch (IOException e){
             return ResponseEntity.badRequest().body("couldn't find");
         }
+    }
+
+    @RequestMapping(value = "/mp3filesname/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Mp3File> getMp3ByName(@PathVariable("id") String id) {
+        System.out.println("Fetching Mp3 File with name " + id);
+        Mp3File account = mp3FileService.findByName(id);
+        if (account == null) {
+            System.out.println("Image with name " + id + " not found");
+            return new ResponseEntity<Mp3File>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Mp3File>(account, HttpStatus.OK);
     }
 }

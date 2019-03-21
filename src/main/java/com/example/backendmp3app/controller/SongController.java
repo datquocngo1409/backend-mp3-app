@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 //Cho phép localhost:4200 có thể truy cập vào Backend.
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class SongController {
     @Autowired
     public SongService songService;
@@ -48,8 +48,8 @@ public class SongController {
     //API sẽ thêm một Song mới.
     @RequestMapping(value = "/songs", method = RequestMethod.POST)
     public ResponseEntity<Void> createSong(@RequestBody Song song, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Song " + song.getName());
         songService.save(song);
+        System.out.println("Created Song!");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/songs/{id}").buildAndExpand(song.getId()).toUri());
         //Trả về Response đã tạo mới.

@@ -53,4 +53,9 @@ public class Mp3FileServiceImpl implements Mp3FileService {
     public Mp3File findById(Long id) {
         return mp3FileRepository.findById(id).get();
     }
+
+    @Override
+    public Mp3File findByName(String name) {
+        return mp3FileRepository.findByName(name);
+    }
 }

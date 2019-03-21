@@ -52,4 +52,9 @@ public class ImageServiceImpl implements ImageService {
     public Image findById(Long id) {
         return imageRepository.findById(id).get();
     }
+
+    @Override
+    public Image findByName(String name) {
+        return imageRepository.findByName(name);
+    }
 }

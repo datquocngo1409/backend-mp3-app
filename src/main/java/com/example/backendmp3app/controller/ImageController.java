@@ -44,7 +44,7 @@ public class ImageController {
     public ResponseEntity<?> createStaff(@RequestParam(name = "file") MultipartFile file, HttpServletRequest servletRequest) throws URISyntaxException {
         try {
             imageService.create(file);
-            System.out.println("Created!");
+            System.out.println("Created Image!");
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
             headers.setAccessControlAllowOrigin("*");
@@ -102,6 +102,17 @@ public class ImageController {
         Image account = imageService.findById(id);
         if (account == null) {
             System.out.println("Image with id " + id + " not found");
+            return new ResponseEntity<Image>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Image>(account, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/imagesname/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Image> getImageByName(@PathVariable("id") String id) {
+        System.out.println("Fetching Image with name " + id);
+        Image account = imageService.findByName(id);
+        if (account == null) {
+            System.out.println("Image with name " + id + " not found");
             return new ResponseEntity<Image>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Image>(account, HttpStatus.OK);

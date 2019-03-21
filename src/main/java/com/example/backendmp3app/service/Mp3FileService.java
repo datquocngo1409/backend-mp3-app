@@ -21,4 +21,6 @@ public interface Mp3FileService {
 
     //Hàm trả về Mp3File có ID truyền vào.
     Mp3File findById(Long id);
+
+    Mp3File findByName(String name);
 }

@@ -22,4 +22,6 @@ public interface ImageService {
 
     //Hàm trả về Ảnh có ID truyền vào.
     Image findById(Long id);
+
+    Image findByName(String name);
 }

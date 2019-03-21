@@ -19,11 +19,11 @@ public class Song {
     @NotEmpty
     private String singer_name;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "mp3_id")
     private Mp3File mp3File;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "image_id")
     private Image image;
 
