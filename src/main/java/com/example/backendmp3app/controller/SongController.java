@@ -57,8 +57,8 @@ public class SongController {
     }
 
     //API sẽ cập nhật Song với id trên url.
-    @RequestMapping(value = "/songs/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Song> updateSong(@PathVariable("id") long id, @RequestBody Song song) {
+    @RequestMapping(value = "/songs/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<Song> updateSong(@PathVariable("id") long id, @RequestBody Song song, UriComponentsBuilder ucBuilder) {
         System.out.println("Updating Song " + id);
 
         //Lấy về Song có ID trên url.
@@ -81,6 +81,8 @@ public class SongController {
 
         songService.save(currentSong);
         //Trả về Response thành công.
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/songs/{id}").buildAndExpand(currentSong.getId()).toUri());
         return new ResponseEntity<Song>(currentSong, HttpStatus.OK);
     }
 
