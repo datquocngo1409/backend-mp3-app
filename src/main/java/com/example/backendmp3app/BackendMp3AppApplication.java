@@ -38,4 +38,14 @@ public class BackendMp3AppApplication {
         return new Mp3FileServiceImpl();
     }
 
+    @Bean
+    public AvatarService avatarService() {
+        return new AvatarServiceImpl();
+    }
+
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
+    }
+
 }
