@@ -85,7 +85,7 @@ public class AvatarController {
         System.out.println("Fetching Avatar with name " + id);
         Avatar account = avatarService.findByName(id);
         if (account == null) {
-            System.out.println("Image with name " + id + " not found");
+            System.out.println("Avatar with name " + id + " not found");
             return new ResponseEntity<Avatar>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Avatar>(account, HttpStatus.OK);

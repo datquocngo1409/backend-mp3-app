@@ -90,4 +90,15 @@ public class UserController {
         userService.remove(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/usersname/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getAvatarByName(@PathVariable("id") String id) {
+        System.out.println("Fetching User with name " + id);
+        User account = userService.findByName(id);
+        if (account == null) {
+            System.out.println("User with name " + id + " not found");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<User>(account, HttpStatus.OK);
+    }
 }
