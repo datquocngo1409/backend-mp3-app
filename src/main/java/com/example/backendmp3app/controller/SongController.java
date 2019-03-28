@@ -78,6 +78,7 @@ public class SongController {
         currentSong.setImage(song.getImage());
         currentSong.setMp3File(song.getMp3File());
         currentSong.setId(song.getId());
+        currentSong.setListenCount(song.getListenCount());
 
         songService.save(currentSong);
         //Trả về Response thành công.

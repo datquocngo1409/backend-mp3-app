@@ -31,16 +31,19 @@ public class Song {
     @JoinColumn(name = "category_id")
     private SongCategory songCategory;
 
+    private Long listenCount;
+
     public Song() {
     }
 
-    public Song(@NotEmpty String name, String description, @NotEmpty String singer_name, Mp3File mp3File, Image image, SongCategory songCategory) {
+    public Song(@NotEmpty String name, String description, @NotEmpty String singer_name, Mp3File mp3File, Image image, SongCategory songCategory, Long listenCount) {
         this.name = name;
         this.description = description;
         this.singer_name = singer_name;
         this.mp3File = mp3File;
         this.image = image;
         this.songCategory = songCategory;
+        this.listenCount = listenCount;
     }
 
     public Long getId() {
@@ -97,5 +100,13 @@ public class Song {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Long getListenCount() {
+        return listenCount;
+    }
+
+    public void setListenCount(Long listenCount) {
+        this.listenCount = listenCount;
     }
 }
