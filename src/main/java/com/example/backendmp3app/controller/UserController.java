@@ -51,7 +51,7 @@ public class UserController {
     }
 
     //API cập nhật một Admin với ID trên url.
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<User> updateAdmin(@PathVariable("id") long id, @RequestBody User user) {
         System.out.println("Updating User " + id);
 
